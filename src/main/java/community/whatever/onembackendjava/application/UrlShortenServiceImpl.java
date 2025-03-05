@@ -3,16 +3,18 @@ package community.whatever.onembackendjava.application;
 import community.whatever.onembackendjava.repository.UrlShortenRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 public class UrlShortenServiceImpl implements UrlShortenService {
 
     private final UrlShortenRepository urlShortenRepository;
-    private final Random random = new Random();
+    private final RandomKeyGenerator randomKeyGenerator;
 
-    public UrlShortenServiceImpl(final UrlShortenRepository urlShortenRepository) {
+    public UrlShortenServiceImpl(
+            final UrlShortenRepository urlShortenRepository,
+            final RandomKeyGenerator randomKeyGenerator
+    ) {
         this.urlShortenRepository = urlShortenRepository;
+        this.randomKeyGenerator = randomKeyGenerator;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class UrlShortenServiceImpl implements UrlShortenService {
 
     @Override
     public String createShortUrl(final String originUrl) {
-        String randomKey = String.valueOf(random.nextInt(10000));
+        String randomKey = randomKeyGenerator.getRandomKey();
         urlShortenRepository.createShortenUrl(originUrl, randomKey);
         return randomKey;
     }
