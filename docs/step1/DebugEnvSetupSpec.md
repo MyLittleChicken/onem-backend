@@ -15,7 +15,7 @@
 - [목표가 아닌 것](#목표가-아닌-것)
 - [스펙 - 작성 중](#스펙)
 - 실행 가이드
-  - [Windows(x86)](#windows-x86)
+  - [Windows(amd64)](#windows-amd64)
   - [Windows(arm64)](#windows-arm64)
   - [macOS](#macos)
 ***
@@ -50,23 +50,20 @@
 ## 스펙⚙️
 - 시스템 환경
   - CPU: 1 core
-  - RAM: 1GB memory
-  - Disk: 알 수 없음  
-  - OS: 알 수 없음
+  - RAM: 1GiB
+  - Disk: 8GiB (available 5.1GiB)
+  - OS: ubuntu server 24.04 LTS (amd64)
+  - 현재 AWS EC2 t2.micro 를 통해 구성
   
 
 - 어플리케이션 실행 환경
-    - JDK 17 이상
+    - Java 17
     - SpringBoot 3.4.1
-    - etc...
 
-
-작성 중입니다.
 
 ***
 
-## 가이드📜(작성 중입니다.)
-### Windows (x86)
+## 실행 가이드📜(추후 작성 예정 - 25.03.05 MyLittleChicken)
+### Windows (amd64)
 ### Windows (arm64)
 ### macOS
-### Linux (Ubuntu)
