@@ -19,11 +19,8 @@ public class UrlShortenServiceImpl implements UrlShortenService {
 
     @Override
     public String getOriginalUrl(final String shortUrl) throws IllegalArgumentException {
-        try {
-            return urlShortenRepository.getOriginUrl(shortUrl);
-        } catch (NullPointerException ne) {
-            throw new IllegalArgumentException("Invalid key");
-        }
+        return urlShortenRepository.getOriginUrl(shortUrl)
+                .orElseThrow();
     }
 
     @Override
