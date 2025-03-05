@@ -1,0 +1,12 @@
+
+### get shorten url
+POST http://localhost:8080/shorten-url/search
+Content-Type: text/plain
+
+9167
+
+### create shorten url
+POST http://localhost:8080/shorten-url/create
+Content-Type: text/plain
+
+https://www.google.com
