@@ -2,7 +2,7 @@ package community.whatever.onembackendjava.presentation;
 
 public class ResponseDto {
 
-    public static class CreateShotenUrl {
+    public static class CreateShotenUrl implements Responsible {
         private String shotenUrl;
 
         public CreateShotenUrl() {
@@ -18,7 +18,7 @@ public class ResponseDto {
         }
     }
 
-    public static class GetOriginUrl {
+    public static class GetOriginUrl implements Responsible {
         private String originUrl;
 
         public GetOriginUrl() {
