@@ -16,6 +16,10 @@ public class ResponseDto {
         public String getShotenUrl() {
             return shotenUrl;
         }
+
+        public static CreateShotenUrl from(String shotenUrl) {
+            return new CreateShotenUrl(shotenUrl);
+        }
     }
 
     public static class GetOriginUrl implements Responsible {
@@ -31,6 +35,10 @@ public class ResponseDto {
 
         public String getOriginUrl() {
             return originUrl;
+        }
+
+        public static GetOriginUrl from(String originUrl) {
+            return new GetOriginUrl(originUrl);
         }
     }
 
