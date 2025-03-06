@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class InMemoryRepository implements UrlShortenRepository {
@@ -11,8 +12,8 @@ public class InMemoryRepository implements UrlShortenRepository {
     private final Map<String, String> shortenUrls = new HashMap<>();
 
     @Override
-    public String getOriginUrl(final String shortenUrl) {
-        return shortenUrls.get(shortenUrl);
+    public Optional<String> getOriginUrl(final String shortenUrl) {
+        return Optional.ofNullable(shortenUrls.get(shortenUrl));
     }
 
     @Override
