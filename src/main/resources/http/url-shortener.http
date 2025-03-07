@@ -3,22 +3,31 @@
 POST http://localhost:8080/shorten-url/search
 Content-Type: text/plain
 
-9167
+2955
+
+### get origin url (수정 전, 랜덤 요청)
+POST http://localhost:8080/shorten-url/search
+Content-Type: text/plain
+
+{{$random.integer(10000)}}
 
 ### create shorten url (수정 전)
 POST http://localhost:8080/shorten-url/create
 Content-Type: text/plain
 
-https://www.google.com
+https://example.com/{{$uuid}}
 
 
 ### get origin url (수정 후)
 GET http://localhost:8080/api/v1/shorten-url/2955
+
+### get origin url (수정 후, 랜덤 요청)
+GET http://localhost:8080/api/v1/shorten-url/{{$random.integer(10000)}}
 
 ### create shorten url (수정 후)
 POST http://localhost:8080/api/v1/shorten-url
 Content-Type: application/json
 
 {
-  "originUrl": "https://www.google.com"
+  "originUrl": "https://example.com/{{$uuid}}"
 }
