@@ -2,14 +2,14 @@ package community.whatever.onembackendjava.presentation;
 
 public class ResponseDto {
 
-    public static class CreateShotenUrl implements Responsible {
+    public static class CreateShortenUrl implements Responsible {
         private String shotenUrl;
 
-        public CreateShotenUrl() {
+        public CreateShortenUrl() {
 
         }
 
-        public CreateShotenUrl(String shotenUrl) {
+        public CreateShortenUrl(String shotenUrl) {
             this.shotenUrl = shotenUrl;
         }
 
@@ -17,8 +17,8 @@ public class ResponseDto {
             return shotenUrl;
         }
 
-        public static CreateShotenUrl from(String shotenUrl) {
-            return new CreateShotenUrl(shotenUrl);
+        public static CreateShortenUrl from(String shotenUrl) {
+            return new CreateShortenUrl(shotenUrl);
         }
     }
 

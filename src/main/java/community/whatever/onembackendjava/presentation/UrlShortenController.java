@@ -33,6 +33,6 @@ public class UrlShortenController {
     @PostMapping(value = "/api/v1/shorten-url", produces = "application/json", consumes = "application/json")
     public Responsible createShortUrl(@RequestBody final RequestDto.CreateShortenUrl request) {
         String shortUrl = urlShortenService.createShortUrl(request.getOriginUrl());
-        return ResponseDto.CreateShotenUrl.from(shortUrl);
+        return ResponseDto.CreateShortenUrl.from(shortUrl);
     }
 }
