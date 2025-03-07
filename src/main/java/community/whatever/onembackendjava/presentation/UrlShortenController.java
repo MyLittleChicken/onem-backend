@@ -1,8 +1,6 @@
 package community.whatever.onembackendjava.presentation;
 
 import community.whatever.onembackendjava.application.UrlShortenService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,16 +25,14 @@ public class UrlShortenController {
     }
 
     @GetMapping(value = "/api/v1/shorten-url/{key}", produces = "application/json")
-    public ResponseEntity<Responsible> getShortenUrl(@PathVariable(name = "key") final String key) {
+    public Responsible getShortenUrl(@PathVariable(name = "key") final String key) {
         String originUrl = urlShortenService.getOriginalUrl(key);
-        Responsible response = ResponseDto.GetOriginUrl.from(originUrl);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseDto.GetOriginUrl.from(originUrl);
     }
 
     @PostMapping(value = "/api/v1/shorten-url", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Responsible> createShortUrl(@RequestBody final RequestDto.CreateShortenUrl request) {
+    public Responsible createShortUrl(@RequestBody final RequestDto.CreateShortenUrl request) {
         String shortUrl = urlShortenService.createShortUrl(request.getOriginUrl());
-        Responsible response = ResponseDto.CreateShotenUrl.from(shortUrl);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseDto.CreateShotenUrl.from(shortUrl);
     }
 }
