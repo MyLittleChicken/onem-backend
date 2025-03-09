@@ -22,6 +22,7 @@ public class LoggingFilter extends OncePerRequestFilter {
     private static final String REQUEST_URI_PREFIX = "request uri: ";
     private static final String REQUEST_METHOD_PREFIX = "request method: ";
     private static final String REQUEST_BODY_PREFIX = "request body: ";
+    private static final String RESPONSE_STATUS_PREFIX = "response status: ";
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String EMPTY_SIGN = "Empty";
 
@@ -32,28 +33,43 @@ public class LoggingFilter extends OncePerRequestFilter {
             @NonNull final HttpServletRequest request,
             @NonNull final HttpServletResponse response,
             @NonNull final FilterChain filterChain
-    ) throws ServletException, IOException {
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
-        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
+    ) throws IOException {
+        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
+        // unexpected exception
         try {
             filterChain.doFilter(requestWrapper, responseWrapper);
         } catch (Exception e) {
-            logger.error(buildRequestLog(requestWrapper));
-            throw e;
+            logger.error("Unexpected exception", e);
+            responseWrapper.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         } finally {
             responseWrapper.copyBodyToResponse();
         }
+
+        if (responseWrapper.getStatus() == HttpServletResponse.SC_OK) return;
+
+        StringBuffer stringBuffer = new StringBuffer();
+        appendRequestLog(requestWrapper, stringBuffer);
+        appendResponseLog(responseWrapper, stringBuffer);
+        logger.error(stringBuffer.toString());
     }
 
-    private String buildRequestLog(final ContentCachingRequestWrapper requestWrapper) throws IOException {
-        Appendable sb = new StringBuffer();
-        sb.append(LINE_SEPARATOR);
-        sb.append(REQUEST_URI_PREFIX).append(requestWrapper.getRequestURI()).append(LINE_SEPARATOR);
-        sb.append(REQUEST_METHOD_PREFIX).append(requestWrapper.getMethod()).append(LINE_SEPARATOR);
-        sb.append(REQUEST_BODY_PREFIX).append(getRequestBody(requestWrapper));
+    private void appendRequestLog(
+            final ContentCachingRequestWrapper requestWrapper,
+            final StringBuffer stringBuffer
+    ) {
+        stringBuffer.append(LINE_SEPARATOR);
+        stringBuffer.append(REQUEST_URI_PREFIX).append(requestWrapper.getRequestURI()).append(LINE_SEPARATOR);
+        stringBuffer.append(REQUEST_METHOD_PREFIX).append(requestWrapper.getMethod()).append(LINE_SEPARATOR);
+        stringBuffer.append(REQUEST_BODY_PREFIX).append(getRequestBody(requestWrapper)).append(LINE_SEPARATOR);
+    }
 
-        return sb.toString();
+    private void appendResponseLog(
+            final ContentCachingResponseWrapper responseWrapper,
+            final StringBuffer stringBuffer
+    ) {
+        stringBuffer.append(RESPONSE_STATUS_PREFIX).append(responseWrapper.getStatus()).append(LINE_SEPARATOR);
     }
 
     private String getRequestBody(final ContentCachingRequestWrapper requestWrapper) {
