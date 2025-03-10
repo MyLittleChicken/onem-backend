@@ -35,7 +35,7 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
 - 구현되어 있는 것을 변경할 때 무엇을, 어떤 순서로 변경할지 판단하세요.
 - record 를 제외하고 java 11 을 넘어가는 문법은 사용을 지양해주세요.
 
-### how to run
+## how to run
 
 1. application build
     ```shell
@@ -48,18 +48,28 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
     java -jar build/libs/onem-backend-0.0.1-SNAPSHOT.jar
     ````
 
-3. create shorten-url key
+## document
+[public-api-document](https://documenter.getpostman.com/view/32963630/2sAYk7Rj5a)
+
+## how to test
+### use curl
+1. create shorten-url key
 
    ```shell
-   curl -X POST --location "http://localhost:8080/shorten-url/create" \
+   curl -X POST --location "http://localhost:8080/api/v1/shorten-url" \
        -H "Content-Type: application/json" \
-       -d 'https://www.google.com'
+       -d '{"originUrl": "https://www.google.com"}'
    ```
 
-4. search shorten-url by created key
+2. get shorten-url by created key
 
     ```shell
-    curl -X POST --location "http://localhost:8080/shorten-url/search" \
-        -H "Content-Type: application/json" \
-        -d '4888'
+    curl -X GET --location "http://localhost:8080/api/v1/shorten-url/{key}"
     ```
+
+### use postman
+1. download this [file](docs/url-shortener(postman).json?raw=true)
+2. [using web](https://postman.com) or [install app](https://www.postman.com/downloads/)
+3. import collection with downloaded file  
+![image](/docs/document-import.png)  
+![image](/docs/document-drop.png)
