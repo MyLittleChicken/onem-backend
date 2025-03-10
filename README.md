@@ -35,6 +35,11 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
 - 구현되어 있는 것을 변경할 때 무엇을, 어떤 순서로 변경할지 판단하세요.
 - record 를 제외하고 java 11 을 넘어가는 문법은 사용을 지양해주세요.
 
+
+## document
+[public api document](https://documenter.getpostman.com/view/32963630/2sAYk7Rj5a)
+***
+
 ## how to run
 
 1. application build
@@ -42,16 +47,14 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
     ./gradlew bootJar
     ```
 
-2. application run
+2. application run  
+   - **you need `jdk 17` or `higher`**
 
     ```shell
     java -jar build/libs/onem-backend-0.0.1-SNAPSHOT.jar
     ````
 
-## document
-<a href="https://www.google.com/" target="_blank">
-   public-api-document
-</a>
+***
 
 ## how to test
 <details>
@@ -80,3 +83,5 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
       ![image](/docs/document-import.png)  
       ![image](/docs/document-drop.png)  
 </details>
+
+***
