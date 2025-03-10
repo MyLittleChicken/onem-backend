@@ -49,27 +49,34 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
     ````
 
 ## document
-[public-api-document](https://documenter.getpostman.com/view/32963630/2sAYk7Rj5a)
+<a href="https://www.google.com/" target="_blank">
+   public-api-document
+</a>
 
 ## how to test
-### use curl
-1. create shorten-url key
+<details>
+   <summary>use curl</summary>
 
-   ```shell
-   curl -X POST --location "http://localhost:8080/api/v1/shorten-url" \
-       -H "Content-Type: application/json" \
-       -d '{"originUrl": "https://www.google.com"}'
-   ```
+   1. create shorten-url key
+   
+      ```shell
+      curl -X POST --location "http://localhost:8080/api/v1/shorten-url" \
+          -H "Content-Type: application/json" \
+          -d '{"originUrl": "https://www.google.com"}'
+      ```
+   
+   2. get shorten-url by created key
+   
+       ```shell
+       curl -X GET --location "http://localhost:8080/api/v1/shorten-url/{key}"
+       ```
+</details>
 
-2. get shorten-url by created key
+<details>
+   <summary>use postman</summary>
 
-    ```shell
-    curl -X GET --location "http://localhost:8080/api/v1/shorten-url/{key}"
-    ```
-
-### use postman
-1. download this [file](docs/url-shortener(postman).json?raw=true)
-2. [using web](https://postman.com) or [install app](https://www.postman.com/downloads/)
-3. import collection with downloaded file  
-![image](/docs/document-import.png)  
-![image](/docs/document-drop.png)
+   1. [using web](https://postman.com) or [install app](https://www.postman.com/downloads/)
+   2. import collection with json file  
+      ![image](/docs/document-import.png)  
+      ![image](/docs/document-drop.png)  
+</details>
