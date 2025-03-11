@@ -20,7 +20,7 @@ public class UrlShortenServiceImpl implements UrlShortenService {
 
     @Override
     public String getOriginalUrl(final String shortUrl) throws IllegalArgumentException {
-        return urlShortenRepository.getOriginUrl(shortUrl)
+        return urlShortenRepository.findOriginUrlByKey(shortUrl)
                 .orElseThrow();
     }
 
@@ -28,7 +28,7 @@ public class UrlShortenServiceImpl implements UrlShortenService {
     public String createShortUrl(final String originUrl) throws CustomDuplicateKeyException {
         String randomKey = randomKeyGenerator.getRandomKey();
 
-        if (urlShortenRepository.getIsExistKey(randomKey)) {
+        if (urlShortenRepository.existsByKey(randomKey)) {
             throw new CustomDuplicateKeyException(randomKey);
         }
 
