@@ -53,4 +53,21 @@ class OnemBackendApplicationTests {
         assertEquals(originalUrl, result);
     }
 
+    // 중복된 key 발생 시, AlreadyExistsKeyException 이 발생하는지 테스트
+    @Test
+    void testCreateShortUrl_existsCase_throw_AlreadyExistsKeyException() {
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator);
+
+        String originalUrl = "https://www.google.com";
+        String randomKey = "z93jD80";
+
+        Mockito.when(randomKeyGenerator.getRandomKey()).thenReturn(randomKey);
+        Mockito.when(urlShortenRepository.getIsExistKey(randomKey)).thenReturn(true);
+
+        AlreadyExistsKeyException exception = assertThrows(AlreadyExistsKeyException.class, () -> {
+            urlShortenService.createShortUrl(originalUrl);
+        });
+
+        assertEquals("key: " + randomKey + " already exists", exception.getMessage());
+    }
 }
