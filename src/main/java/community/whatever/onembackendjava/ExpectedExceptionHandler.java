@@ -17,8 +17,19 @@ public class ExpectedExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(exception = NoSuchElementException.class)
     public String handleNoSuchElementException(final NoSuchElementException e) {
-        logger.error("Expected exception class: {}, message: {}", e.getClass().getName(), e.getMessage());
+        loggingError(e);
         return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(exception = AlreadyExistsKeyException.class)
+    public String handleIllegalStateException(final AlreadyExistsKeyException e) {
+        loggingError(e);
+        return e.getMessage();
+    }
+
+    private void loggingError(final Exception e) {
+        logger.error("Expected exception class: {}, message: {}", e.getClass().getName(), e.getMessage());
     }
 
 }
