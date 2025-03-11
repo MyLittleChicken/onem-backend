@@ -17,6 +17,11 @@ public class InMemoryRepository implements UrlShortenRepository {
     }
 
     @Override
+    public Boolean getIsExistKey(final String key) {
+        return shortenUrls.containsKey(key);
+    }
+
+    @Override
     public void createShortenUrl(final String originUrl, final String key) {
         shortenUrls.put(key, originUrl);
     }
