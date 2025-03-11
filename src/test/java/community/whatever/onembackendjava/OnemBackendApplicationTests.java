@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -72,7 +71,7 @@ class OnemBackendApplicationTests {
         }
     }
 
-    // 생성된 shortUrl 의 길이가 7자리인지 테스트
+    // 생성된 shortUrl 의 길이가 7자리인지
     @Test
     void testCreateShortUrl_always_7digit() {
         String[] originalUrls = {"https://www.google.com", "https://www.naver.com", "https://www.daum.net"};
@@ -81,6 +80,16 @@ class OnemBackendApplicationTests {
             String result = urlShortenService.createShortUrl(originalUrl);
             assertEquals(7, result.length());
         }
+    }
+
+    // 생성된 shortUrl 이 8자리가 되는 시점 테스트
+    @Test
+    void testCreateShortUrl_8digit() {
+        long value = 3521614606208L; // Tue Aug 05 2081 10:16:46 GMT+0000
+        String encoded = base62Converter.encode(value);
+
+        System.out.printf("original: %d, encoded: %s, length: %d%n", value, encoded, encoded.length());
+        assertEquals(8, encoded.length());
     }
 
 }
