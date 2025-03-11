@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -64,7 +63,7 @@ class OnemBackendApplicationTests {
         Mockito.when(randomKeyGenerator.getRandomKey()).thenReturn(randomKey);
         Mockito.when(urlShortenRepository.getIsExistKey(randomKey)).thenReturn(true);
 
-        AlreadyExistsKeyException exception = assertThrows(AlreadyExistsKeyException.class, () -> {
+        CustomDuplicateKeyException exception = assertThrows(CustomDuplicateKeyException.class, () -> {
             urlShortenService.createShortUrl(originalUrl);
         });
 

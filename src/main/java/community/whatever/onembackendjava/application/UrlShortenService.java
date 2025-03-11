@@ -1,6 +1,6 @@
 package community.whatever.onembackendjava.application;
 
-import community.whatever.onembackendjava.AlreadyExistsKeyException;
+import community.whatever.onembackendjava.CustomDuplicateKeyException;
 
 public interface UrlShortenService {
 
@@ -19,8 +19,8 @@ public interface UrlShortenService {
      *
      * @param originUrl 원본 url, 사용자가 입력한 긴 주소를 뜻합니다.
      * @return 생성된 단축 url, 문자열로 반환됩니다.
-     * @throws AlreadyExistsKeyException 이미 등록한 key 가 존재하는 경우 발생합니다.
+     * @throws CustomDuplicateKeyException 이미 등록한 key 가 존재하는 경우 발생합니다.
      */
-    String createShortUrl(final String originUrl) throws AlreadyExistsKeyException;
+    String createShortUrl(final String originUrl) throws CustomDuplicateKeyException;
 
 }

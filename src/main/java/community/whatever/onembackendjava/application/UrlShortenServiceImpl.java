@@ -1,6 +1,6 @@
 package community.whatever.onembackendjava.application;
 
-import community.whatever.onembackendjava.AlreadyExistsKeyException;
+import community.whatever.onembackendjava.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.repository.UrlShortenRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +25,11 @@ public class UrlShortenServiceImpl implements UrlShortenService {
     }
 
     @Override
-    public String createShortUrl(final String originUrl) throws AlreadyExistsKeyException {
+    public String createShortUrl(final String originUrl) throws CustomDuplicateKeyException {
         String randomKey = randomKeyGenerator.getRandomKey();
 
         if (urlShortenRepository.getIsExistKey(randomKey)) {
-            throw new AlreadyExistsKeyException("key: " + randomKey + " already exists");
+            throw new CustomDuplicateKeyException(randomKey);
         }
 
         urlShortenRepository.createShortenUrl(originUrl, randomKey);

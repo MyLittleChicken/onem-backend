@@ -22,8 +22,8 @@ public class ExpectedExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(exception = AlreadyExistsKeyException.class)
-    public String handleIllegalStateException(final AlreadyExistsKeyException e) {
+    @ExceptionHandler(exception = CustomDuplicateKeyException.class)
+    public String handleDuplicateKeyException(final CustomDuplicateKeyException e) {
         loggingError(e);
         return e.getMessage();
     }
