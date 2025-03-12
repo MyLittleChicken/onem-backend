@@ -35,7 +35,7 @@ class OnemBackendApplicationTests {
     @Test
     void testGetOriginalUrl_WhenShortUrlNotFound_ShouldThrowException() {
         String shortUrl = "1234";
-        Mockito.when(urlShortenRepository.getOriginUrl(shortUrl)).thenReturn(Optional.empty());
+        Mockito.when(urlShortenRepository.findOriginUrlByKey(shortUrl)).thenReturn(Optional.empty());
 
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
             urlShortenService.getOriginalUrl(shortUrl);
@@ -49,11 +49,29 @@ class OnemBackendApplicationTests {
     void testGetOriginalUrl_WhenShortUrlFound_ShouldReturnOriginalUrl() {
         String shortUrl = "1234";
         String originalUrl = "http://www.google.com";
-        Mockito.when(urlShortenRepository.getOriginUrl(shortUrl)).thenReturn(Optional.of(originalUrl));
+        Mockito.when(urlShortenRepository.findOriginUrlByKey(shortUrl)).thenReturn(Optional.of(originalUrl));
 
         String result = urlShortenService.getOriginalUrl(shortUrl);
 
         assertEquals(originalUrl, result);
+    }
+
+    // 중복된 key 발생 시, AlreadyExistsKeyException 이 발생하는지 테스트
+    @Test
+    void testCreateShortUrl_existsCase_throw_AlreadyExistsKeyException() {
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator);
+
+        String originalUrl = "https://www.google.com";
+        String randomKey = "z93jD80";
+
+        Mockito.when(randomKeyGenerator.getRandomKey()).thenReturn(randomKey);
+        Mockito.when(urlShortenRepository.existsByKey(randomKey)).thenReturn(true);
+
+        CustomDuplicateKeyException exception = assertThrows(CustomDuplicateKeyException.class, () -> {
+            urlShortenService.createShortUrl(originalUrl);
+        });
+
+        assertEquals("key: " + randomKey + " already exists", exception.getMessage());
     }
 
     // Base62Converter 를 이용한 encoding, decoding 테스트 (encoding 후 decoding 시 원래 값과 같아야 함)

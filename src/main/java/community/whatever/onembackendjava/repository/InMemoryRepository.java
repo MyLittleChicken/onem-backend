@@ -12,8 +12,13 @@ public class InMemoryRepository implements UrlShortenRepository {
     private final Map<String, String> shortenUrls = new HashMap<>();
 
     @Override
-    public Optional<String> getOriginUrl(final String shortenUrl) {
-        return Optional.ofNullable(shortenUrls.get(shortenUrl));
+    public Optional<String> findOriginUrlByKey(final String key) {
+        return Optional.ofNullable(shortenUrls.get(key));
+    }
+
+    @Override
+    public boolean existsByKey(final String key) {
+        return shortenUrls.containsKey(key);
     }
 
     @Override
