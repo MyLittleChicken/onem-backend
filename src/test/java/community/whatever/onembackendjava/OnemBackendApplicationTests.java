@@ -114,11 +114,14 @@ class OnemBackendApplicationTests {
     void testCreateShortUrl_8digit() {
         base62Converter = new Base62Converter();
 
-        long value = 3521614606208L; // Tue Aug 05 2081 10:16:46 GMT+0000
-        String encoded = base62Converter.encode(value);
+        long value = 3521614606207L; // Tue Aug 05 2081 10:16:46 GMT+0000
+        String encoded7digit = base62Converter.encode(value);
+        String encoded8digit = base62Converter.encode(value + 1);
 
-        System.out.printf("original: %d, encoded: %s, length: %d%n", value, encoded, encoded.length());
-        assertEquals(8, encoded.length());
+        System.out.printf("original: %d, encoded: %s, length: %d%n", value, encoded7digit, encoded7digit.length());
+        System.out.printf("original: %d, encoded: %s, length: %d%n", value, encoded8digit, encoded8digit.length());
+        assertEquals(7, encoded7digit.length());
+        assertEquals(8, encoded8digit.length());
     }
 
 }
