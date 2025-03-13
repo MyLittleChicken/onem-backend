@@ -77,11 +77,16 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
 
 <details>
    <summary>use postman</summary>
-
+       
+   **test in a local environment, you need to install the app!**
    1. [using web](https://postman.com) or [install app](https://www.postman.com/downloads/)
    2. import collection with json file  
       ![image](/docs/document-import.png)  
       ![image](/docs/document-drop.png)  
+   3. create shorten-url key  
+      ![image](/docs/document-howto-01.png)
+   4. get shorten-url by created key  
+      ![image](/docs/document-howto-02.png)
 </details>
 
 ***
