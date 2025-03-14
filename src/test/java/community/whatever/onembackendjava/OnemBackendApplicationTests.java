@@ -23,7 +23,7 @@ class OnemBackendApplicationTests {
     private RandomKeyGenerator randomKeyGenerator;
     private UrlShortenServiceImpl urlShortenService;
     private Base62Converter base62Converter;
-    private BlockDomains blockDomains;
+    private BlockDomainProvider blockDomainProvider;
 
     @BeforeEach
     void setUp() {
@@ -31,13 +31,13 @@ class OnemBackendApplicationTests {
         base62Converter = Mockito.mock(Base62Converter.class);
         randomKeyGenerator = Mockito.mock(RandomKeyGenerator.class);
         urlShortenService = Mockito.mock(UrlShortenServiceImpl.class);
-        blockDomains = Mockito.mock(BlockDomains.class);
+        blockDomainProvider = Mockito.mock(BlockDomainProvider.class);
     }
 
     // Repository 에서 ShortUrl 을 찾지 못한 경우 NoSuchElementException 이 발생하는지 테스트
     @Test
     void testGetOriginalUrl_WhenShortUrlNotFound_ShouldThrowException() {
-        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomains);
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
         String shortUrl = "1234";
         Mockito.when(urlShortenRepository.findOriginUrlByKey(shortUrl)).thenReturn(Optional.empty());
@@ -52,7 +52,7 @@ class OnemBackendApplicationTests {
     // Repository 에서 ShortUrl 을 찾은 경우, 정상적으로 OriginalUrl 을 반환하는지 테스트
     @Test
     void testGetOriginalUrl_WhenShortUrlFound_ShouldReturnOriginalUrl() {
-        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomains);
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
         String shortUrl = "1234";
         String originalUrl = "http://www.google.com";
@@ -66,7 +66,7 @@ class OnemBackendApplicationTests {
     // 중복된 key 발생 시, AlreadyExistsKeyException 이 발생하는지 테스트
     @Test
     void testCreateShortUrl_existsCase_throw_AlreadyExistsKeyException() {
-        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomains);
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
         String originalUrl = "https://www.google.com";
         String randomKey = "z93jD80";
@@ -83,13 +83,13 @@ class OnemBackendApplicationTests {
 
     @Test
     void testCreateShortUrl_blockDomain_throw_BlockDomainException() {
-        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomains);
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
         String originalUrl = "http://localhost";
         String randomKey = "A92kld8";
 
         Mockito.when(randomKeyGenerator.getRandomKey()).thenReturn(randomKey);
-        Mockito.when(blockDomains.isBlocked(URI.create(originalUrl))).thenReturn(true);
+        Mockito.when(blockDomainProvider.isBlocked(URI.create(originalUrl))).thenReturn(true);
 
         BlockDomainException exception = assertThrows(BlockDomainException.class, () -> {
             urlShortenService.createShortUrl(originalUrl);
@@ -119,7 +119,7 @@ class OnemBackendApplicationTests {
     @Test
     void testCreateShortUrl_always_7digit() {
         randomKeyGenerator = new RandomKeyGeneratorImpl(new Base62Converter());
-        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomains);
+        urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
         String[] originalUrls = {"https://www.google.com", "https://www.naver.com", "https://www.daum.net"};
 

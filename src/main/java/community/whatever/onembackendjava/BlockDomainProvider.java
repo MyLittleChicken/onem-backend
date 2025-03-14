@@ -7,10 +7,10 @@ import java.net.URL;
 import java.util.Set;
 
 @Component
-public class BlockDomains {
+public class BlockDomainProvider {
     private final Set<String> domains;
 
-    public BlockDomains(final BlockDomainLoader blockDomainLoader) {
+    public BlockDomainProvider(final BlockDomainLoader blockDomainLoader) {
         this.domains = blockDomainLoader.load();
     }
 

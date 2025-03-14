@@ -18,7 +18,7 @@ class BlockDomainLoaderTests {
     @Autowired
     private BlockDomainLoader blockDomainLoader;
     @Autowired
-    private BlockDomains blockDomains;
+    private BlockDomainProvider blockDomainProvider;
 
     @Test
     void testBlockDomainLoader() {
@@ -32,11 +32,11 @@ class BlockDomainLoaderTests {
         URL url = new URL(localhost);
         URI uri = new URI(localhost);
 
-        assertTrue(blockDomains.isBlocked(url));
-        assertTrue(blockDomains.isBlocked(uri));
-        assertTrue(blockDomains.isBlocked(url.getAuthority()));
-        assertTrue(blockDomains.isBlocked(uri.getAuthority()));
-        assertTrue(blockDomains.isBlocked(uri.getRawAuthority()));
+        assertTrue(blockDomainProvider.isBlocked(url));
+        assertTrue(blockDomainProvider.isBlocked(uri));
+        assertTrue(blockDomainProvider.isBlocked(url.getAuthority()));
+        assertTrue(blockDomainProvider.isBlocked(uri.getAuthority()));
+        assertTrue(blockDomainProvider.isBlocked(uri.getRawAuthority()));
     }
 
 }
