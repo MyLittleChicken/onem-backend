@@ -1,1 +1,8 @@
-spring.application.name=onem-backend
+spring:
+  application:
+    name: onem-backend
+
+file:
+  hosts:
+    name: hosts.txt
+    source-url: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
