@@ -1,5 +1,6 @@
 package community.whatever.onembackendjava;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,11 +19,11 @@ import java.util.stream.Collectors;
 @Component
 public class BlockDomainLoaderImpl implements BlockDomainLoader {
 
-    @Value("${file.hosts.name}")
-    private String hostsFileName;
+    @Value("${block-domain.loader.file.name}")
+    private String fileName;
 
-    @Value("${file.hosts.source-url}")
-    private String hostsFileSourceUrl;
+    @Value("${block-domain.loader.source.url}")
+    private String sourceUrl;
 
     private Path filePath;
 
@@ -47,7 +48,7 @@ public class BlockDomainLoaderImpl implements BlockDomainLoader {
 
     @PostConstruct
     private void init() throws IOException {
-        filePath = Path.of(System.getProperty("user.dir"), hostsFileName);
+        filePath = Path.of(System.getProperty("user.dir"), fileName);
 
         if (!Files.exists(filePath)) {
             downloadFile();
@@ -56,9 +57,9 @@ public class BlockDomainLoaderImpl implements BlockDomainLoader {
 
     private void downloadFile() throws IOException {
         RestTemplate restTemplate = new RestTemplate();
-        String content = restTemplate.getForObject(hostsFileSourceUrl, String.class);
+        String content = restTemplate.getForObject(sourceUrl, String.class);
 
-        if (content == null || content.isEmpty()) {
+        if (StringUtils.isBlank(content)) {
             return;
         }
 

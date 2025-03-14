@@ -2,7 +2,9 @@ spring:
   application:
     name: onem-backend
 
-file:
-  hosts:
-    name: hosts.txt
-    source-url: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
+block-domain:
+  loader:
+    file:
+      name: hosts.txt
+    source:
+      url: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
