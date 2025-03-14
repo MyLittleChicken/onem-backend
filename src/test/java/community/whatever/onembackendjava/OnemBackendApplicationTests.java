@@ -5,7 +5,9 @@ import community.whatever.onembackendjava.application.RandomKeyGenerator;
 import community.whatever.onembackendjava.application.RandomKeyGeneratorImpl;
 import community.whatever.onembackendjava.application.UrlShortenServiceImpl;
 import community.whatever.onembackendjava.repository.UrlShortenRepository;
+import io.micrometer.common.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -142,6 +144,13 @@ class OnemBackendApplicationTests {
         System.out.printf("original: %d, encoded: %s, length: %d%n", value, encoded8digit, encoded8digit.length());
         assertEquals(7, encoded7digit.length());
         assertEquals(8, encoded8digit.length());
+    }
+
+    @Test
+    void testStringUtils() {
+        assertTrue(StringUtils.isBlank(null));
+        assertTrue(StringUtils.isBlank(""));
+        assertTrue(StringUtils.isBlank("     "));
     }
 
 }

@@ -1,5 +1,6 @@
 package community.whatever.onembackendjava;
 
+import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -15,27 +16,18 @@ public class BlockDomainProvider {
     }
 
     public boolean isBlocked(final String authority) {
-        if (authority == null || authority.isBlank()) {
-            return true;
-        }
-
-        return this.domains.contains(authority);
+        return StringUtils.isBlank(authority)
+        || this.domains.contains(authority);
     }
 
     public boolean isBlocked(final URI uri) {
-        if (uri == null || uri.getAuthority().isBlank()) {
-            return true;
-        }
-
-        return this.domains.contains(uri.getAuthority());
+        return StringUtils.isBlank(uri.getAuthority())
+        || this.domains.contains(uri.getAuthority());
     }
 
     public boolean isBlocked(final URL url) {
-        if (url == null || url.getAuthority().isBlank()) {
-            return true;
-        }
-
-        return this.domains.contains(url.getAuthority());
+        return StringUtils.isBlank(url.getAuthority())
+        || this.domains.contains(url.getAuthority());
     }
 
 }
