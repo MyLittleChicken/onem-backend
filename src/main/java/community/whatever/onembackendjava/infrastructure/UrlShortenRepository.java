@@ -1,4 +1,4 @@
-package community.whatever.onembackendjava.repository;
+package community.whatever.onembackendjava.infrastructure;
 
 import java.util.Optional;
 
