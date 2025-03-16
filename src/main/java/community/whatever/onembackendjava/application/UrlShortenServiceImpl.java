@@ -1,9 +1,9 @@
 package community.whatever.onembackendjava.application;
 
-import community.whatever.onembackendjava.BlockDomainException;
+import community.whatever.onembackendjava.exception.BlockDomainException;
 import community.whatever.onembackendjava.BlockDomainProvider;
-import community.whatever.onembackendjava.CustomDuplicateKeyException;
-import community.whatever.onembackendjava.repository.UrlShortenRepository;
+import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
+import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;

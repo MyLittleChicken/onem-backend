@@ -1,4 +1,4 @@
-package community.whatever.onembackendjava;
+package community.whatever.onembackendjava.exception;
 
 public class BlockDomainException extends RuntimeException {
     public BlockDomainException(final String message) {
