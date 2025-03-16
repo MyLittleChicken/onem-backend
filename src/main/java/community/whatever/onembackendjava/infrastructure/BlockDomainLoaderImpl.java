@@ -1,4 +1,4 @@
-package community.whatever.onembackendjava;
+package community.whatever.onembackendjava.infrastructure;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;

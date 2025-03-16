@@ -1,5 +1,6 @@
 package community.whatever.onembackendjava;
 
+import community.whatever.onembackendjava.infrastructure.BlockDomainLoader;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 
