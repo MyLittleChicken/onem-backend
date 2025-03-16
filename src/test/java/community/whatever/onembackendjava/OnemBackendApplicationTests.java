@@ -4,6 +4,8 @@ import community.whatever.onembackendjava.application.Base62Converter;
 import community.whatever.onembackendjava.application.RandomKeyGenerator;
 import community.whatever.onembackendjava.application.RandomKeyGeneratorImpl;
 import community.whatever.onembackendjava.application.UrlShortenServiceImpl;
+import community.whatever.onembackendjava.exception.BlockDomainException;
+import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
 import io.micrometer.common.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
