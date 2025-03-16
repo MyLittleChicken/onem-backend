@@ -28,6 +28,13 @@ public class ExpectedExceptionHandler {
         return e.getMessage();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(exception = BlockDomainException.class)
+    public String handleBlockDomainException(final BlockDomainException e) {
+        loggingError(e);
+        return e.getMessage();
+    }
+
     private void loggingError(final Exception e) {
         logger.error("Expected exception class: {}, message: {}", e.getClass().getName(), e.getMessage());
     }
