@@ -1,0 +1,80 @@
+package community.whatever.onembackendjava.entity;
+
+import community.whatever.onembackendjava.infrastructure.ShortenUrlRecord;
+
+import java.time.Duration;
+import java.time.Instant;
+
+public class ShortenUrlEntity {
+    private String shortenUrl;
+    private String originUrl;
+    private boolean isDeleted;
+    private Instant createdAt;
+    private Instant expiredAt; // if null, it means never expired
+
+    public ShortenUrlEntity() {}
+
+    public ShortenUrlEntity(
+            final String shortenUrl,
+            final String originUrl
+    ) {
+        this.shortenUrl = shortenUrl;
+        this.originUrl = originUrl;
+        this.isDeleted = false;
+        this.createdAt = Instant.now();
+        this.expiredAt = null;
+    }
+
+    public ShortenUrlEntity(
+            final String shortenUrl,
+            final String originUrl,
+            final boolean isDeleted,
+            final Instant createdAt,
+            final Instant expiredAt
+    ) {
+        this.shortenUrl = shortenUrl;
+        this.originUrl = originUrl;
+        this.isDeleted = isDeleted;
+        this.createdAt = createdAt;
+        this.expiredAt = expiredAt;
+    }
+
+    public String getShortenUrl() {
+        return shortenUrl;
+    }
+
+    public String getOriginUrl() {
+        return originUrl;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void markAsDeleted() {
+        this.isDeleted = true;
+    }
+
+    public void updateExpiredAt(final Long expirationMinutes) {
+        this.expiredAt = this.createdAt.plus(Duration.ofMinutes(expirationMinutes));
+    }
+
+    public static ShortenUrlEntity fromRecord(final ShortenUrlRecord record) {
+        return new ShortenUrlEntity(
+                record.shortenUrl(),
+                record.originUrl(),
+                record.isDeleted(),
+                record.createdAt(),
+                record.expiredAt()
+        );
+    }
+
+}
