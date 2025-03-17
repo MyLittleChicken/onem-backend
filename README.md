@@ -65,7 +65,7 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
       ```shell
       curl -X POST --location "http://localhost:8080/api/v1/shorten-url" \
           -H "Content-Type: application/json" \
-          -d '{"originUrl": "https://www.google.com"}'
+          -d '{"originalUrl": "https://www.google.com", "expirationMinutes": 30}'
       ```
    
    2. get shorten-url by created key
