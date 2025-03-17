@@ -7,13 +7,18 @@ import community.whatever.onembackendjava.application.UrlShortenServiceImpl;
 import community.whatever.onembackendjava.exception.BlockDomainException;
 import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
+import community.whatever.onembackendjava.presentation.RequestDto;
 import io.micrometer.common.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.net.URI;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -37,8 +42,8 @@ class OnemBackendApplicationTests {
         blockDomainProvider = Mockito.mock(BlockDomainProvider.class);
     }
 
-    // Repository 에서 ShortUrl 을 찾지 못한 경우 NoSuchElementException 이 발생하는지 테스트
     @Test
+    @DisplayName("shortUrl 이 존재하지 않는 경우, NoSuchElementException 발생")
     void testGetOriginalUrl_WhenShortUrlNotFound_ShouldThrowException() {
         urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
@@ -52,8 +57,8 @@ class OnemBackendApplicationTests {
         assertEquals("No value present", exception.getMessage());
     }
 
-    // Repository 에서 ShortUrl 을 찾은 경우, 정상적으로 OriginalUrl 을 반환하는지 테스트
     @Test
+    @DisplayName("ShortUrl 이 존재하는 경우, OriginalUrl 반환")
     void testGetOriginalUrl_WhenShortUrlFound_ShouldReturnOriginalUrl() {
         urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
@@ -66,8 +71,8 @@ class OnemBackendApplicationTests {
         assertEquals(originalUrl, result);
     }
 
-    // 중복된 key 발생 시, AlreadyExistsKeyException 이 발생하는지 테스트
     @Test
+    @DisplayName("중복된 key 생성 . CustomDuplicateKeyException 발생")
     void testCreateShortUrl_existsCase_throw_AlreadyExistsKeyException() {
         urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
@@ -77,14 +82,17 @@ class OnemBackendApplicationTests {
         Mockito.when(randomKeyGenerator.getRandomKey()).thenReturn(randomKey);
         Mockito.when(urlShortenRepository.existsByKey(randomKey)).thenReturn(true);
 
+        RequestDto.CreateShortenUrl requestDto = new RequestDto.CreateShortenUrl(originalUrl);
+
         CustomDuplicateKeyException exception = assertThrows(CustomDuplicateKeyException.class, () -> {
-            urlShortenService.createShortUrl(originalUrl);
+            urlShortenService.createShortUrl(requestDto);
         });
 
         assertEquals("key: " + randomKey + " already exists", exception.getMessage());
     }
 
     @Test
+    @DisplayName("차단 된 도메인 요청 시 BlockDomainException 발생")
     void testCreateShortUrl_blockDomain_throw_BlockDomainException() {
         urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
@@ -94,15 +102,17 @@ class OnemBackendApplicationTests {
         Mockito.when(randomKeyGenerator.getRandomKey()).thenReturn(randomKey);
         Mockito.when(blockDomainProvider.isBlocked(URI.create(originalUrl))).thenReturn(true);
 
+        RequestDto.CreateShortenUrl requestDto = new RequestDto.CreateShortenUrl(originalUrl);
+
         BlockDomainException exception = assertThrows(BlockDomainException.class, () -> {
-            urlShortenService.createShortUrl(originalUrl);
+            urlShortenService.createShortUrl(requestDto);
         });
 
         assertEquals("this domain is blocked: " + originalUrl, exception.getMessage());
     }
 
-    // Base62Converter 를 이용한 encoding, decoding 테스트 (encoding 후 decoding 시 원래 값과 같아야 함)
     @Test
+    @DisplayName("Base62 인코딩, 디코딩 테스트")
     void testBase62EncodingAndDecoding() {
         base62Converter = new Base62Converter();
 
@@ -118,8 +128,8 @@ class OnemBackendApplicationTests {
         }
     }
 
-    // 생성된 shortUrl 의 길이가 7자리인지
     @Test
+    @DisplayName("shortUrl 이 7자리로 생성되는지 확인")
     void testCreateShortUrl_always_7digit() {
         randomKeyGenerator = new RandomKeyGeneratorImpl(new Base62Converter());
         urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
@@ -127,13 +137,14 @@ class OnemBackendApplicationTests {
         String[] originalUrls = {"https://www.google.com", "https://www.naver.com", "https://www.daum.net"};
 
         for (String originalUrl : originalUrls) {
-            String result = urlShortenService.createShortUrl(originalUrl);
+            RequestDto.CreateShortenUrl request = new RequestDto.CreateShortenUrl(originalUrl);
+            String result = urlShortenService.createShortUrl(request);
             assertEquals(7, result.length());
         }
     }
 
-    // 생성된 shortUrl 이 8자리가 되는 시점 테스트
     @Test
+    @DisplayName("shortUrl 이 8자리가 되는 시점")
     void testCreateShortUrl_8digit() {
         base62Converter = new Base62Converter();
 
@@ -148,10 +159,31 @@ class OnemBackendApplicationTests {
     }
 
     @Test
+    @DisplayName("StringUtils 테스트")
     void testStringUtils() {
         assertTrue(StringUtils.isBlank(null));
         assertTrue(StringUtils.isBlank(""));
         assertTrue(StringUtils.isBlank("     "));
+    }
+
+    @Test
+    @DisplayName("LocalDateTime <-> Instant 변환 테스트")
+    void testTimeClassConvert() {
+        long epochSeconds = System.currentTimeMillis() / 1000;
+        Instant fixedInstant = Instant.ofEpochSecond(epochSeconds);
+
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(fixedInstant, zoneId);
+
+        Instant convertInstant = localDateTime.atZone(zoneId).toInstant();
+
+        // 출력 확인
+        System.out.println("epochSeconds: " + fixedInstant);
+        System.out.println("localDateTime: " + localDateTime);
+        System.out.println("fixedInstant: " + fixedInstant);
+        System.out.println("convertInstant: " + convertInstant);
+
+        assertEquals(fixedInstant, convertInstant, "변환된 Instant가 원본과 다름");
     }
 
 }
