@@ -43,7 +43,7 @@ class OnemBackendApplicationTests {
         urlShortenService = new UrlShortenServiceImpl(urlShortenRepository, randomKeyGenerator, blockDomainProvider);
 
         String shortUrl = "1234";
-        Mockito.when(urlShortenRepository.findOriginUrlByKey(shortUrl)).thenReturn(Optional.empty());
+        Mockito.when(urlShortenRepository.findOriginalUrlByKey(shortUrl)).thenReturn(Optional.empty());
 
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
             urlShortenService.getOriginalUrl(shortUrl);
@@ -59,7 +59,7 @@ class OnemBackendApplicationTests {
 
         String shortUrl = "1234";
         String originalUrl = "http://www.google.com";
-        Mockito.when(urlShortenRepository.findOriginUrlByKey(shortUrl)).thenReturn(Optional.of(originalUrl));
+        Mockito.when(urlShortenRepository.findOriginalUrlByKey(shortUrl)).thenReturn(Optional.of(originalUrl));
 
         String result = urlShortenService.getOriginalUrl(shortUrl);
 

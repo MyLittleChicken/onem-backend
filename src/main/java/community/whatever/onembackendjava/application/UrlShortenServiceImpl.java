@@ -27,7 +27,7 @@ public class UrlShortenServiceImpl implements UrlShortenService {
 
     @Override
     public String getOriginalUrl(final String shortUrl) throws IllegalArgumentException {
-        return urlShortenRepository.findOriginUrlByKey(shortUrl)
+        return urlShortenRepository.findOriginalUrlByKey(shortUrl)
                 .orElseThrow();
     }
 
