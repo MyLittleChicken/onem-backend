@@ -1,6 +1,5 @@
 package community.whatever.onembackendjava.application;
 
-import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.presentation.RequestDto;
 
 public interface UrlShortenService {
