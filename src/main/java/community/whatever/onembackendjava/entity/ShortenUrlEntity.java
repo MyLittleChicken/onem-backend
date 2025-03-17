@@ -4,6 +4,7 @@ import community.whatever.onembackendjava.infrastructure.ShortenUrlRecord;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
 
 public class ShortenUrlEntity {
     private String shortenUrl;
@@ -14,6 +15,7 @@ public class ShortenUrlEntity {
 
     public ShortenUrlEntity() {}
 
+    // constructor for creating new entity
     public ShortenUrlEntity(
             final String shortenUrl,
             final String originUrl
@@ -25,6 +27,7 @@ public class ShortenUrlEntity {
         this.expiredAt = null;
     }
 
+    // constructor for creating entity from record
     public ShortenUrlEntity(
             final String shortenUrl,
             final String originUrl,
@@ -64,7 +67,26 @@ public class ShortenUrlEntity {
     }
 
     public void updateExpiredAt(final Long expirationMinutes) {
-        this.expiredAt = this.createdAt.plus(Duration.ofMinutes(expirationMinutes));
+        this.expiredAt = Optional.ofNullable(expirationMinutes)
+                .filter(minutes -> minutes > 0)
+                .map(minutes -> this.createdAt.plus(Duration.ofMinutes(minutes)))
+                .orElse(null);
+
+    }
+
+    public boolean isExpired() {
+        return this.expiredAt != null
+        && Instant.now().isAfter(this.expiredAt);
+    }
+
+    public static ShortenUrlEntity createEntity(
+            final String shortenUrl,
+            final String originUrl
+    ) {
+        return new ShortenUrlEntity(
+                shortenUrl,
+                originUrl
+        );
     }
 
     public static ShortenUrlEntity fromRecord(final ShortenUrlRecord record) {
