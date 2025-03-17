@@ -43,23 +43,23 @@ public class ShortenUrlEntity {
     }
 
     public String getShortenUrl() {
-        return shortenUrl;
+        return this.shortenUrl;
     }
 
     public String getOriginUrl() {
-        return originUrl;
+        return this.originUrl;
     }
 
     public boolean isDeleted() {
-        return isDeleted;
+        return this.isDeleted;
     }
 
     public Instant getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public Instant getExpiredAt() {
-        return expiredAt;
+        return this.expiredAt;
     }
 
     public void markAsDeleted() {
@@ -71,7 +71,6 @@ public class ShortenUrlEntity {
                 .filter(minutes -> minutes > 0)
                 .map(minutes -> this.createdAt.plus(Duration.ofMinutes(minutes)))
                 .orElse(null);
-
     }
 
     public boolean isExpired() {
