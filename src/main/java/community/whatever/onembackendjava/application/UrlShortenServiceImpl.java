@@ -1,9 +1,13 @@
 package community.whatever.onembackendjava.application;
 
+import community.whatever.onembackendjava.entity.ShortenUrlEntity;
 import community.whatever.onembackendjava.exception.BlockDomainException;
 import community.whatever.onembackendjava.BlockDomainProvider;
 import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
+import community.whatever.onembackendjava.exception.ExpiredEntityException;
+import community.whatever.onembackendjava.infrastructure.ShortenUrlRecord;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
+import community.whatever.onembackendjava.presentation.RequestDto;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -27,14 +31,21 @@ public class UrlShortenServiceImpl implements UrlShortenService {
 
     @Override
     public String getOriginalUrl(final String shortUrl) throws IllegalArgumentException {
-        return urlShortenRepository.findOriginUrlByKey(shortUrl)
-                .orElseThrow();
+        ShortenUrlEntity entity = ShortenUrlEntity.fromRecord(
+                urlShortenRepository.findShortenUrlByKey(shortUrl).orElseThrow()
+        );
+
+        if (entity.isExpired()) {
+            throw new ExpiredEntityException(shortUrl);
+        }
+
+        return entity.getOriginUrl();
     }
 
     @Override
-    public String createShortUrl(final String originUrl) throws CustomDuplicateKeyException {
-        if (blockDomainProvider.isBlocked(URI.create(originUrl))) {
-            throw new BlockDomainException(originUrl);
+    public String createShortUrl(final RequestDto.CreateShortenUrl requestDto) throws CustomDuplicateKeyException {
+        if (blockDomainProvider.isBlocked(URI.create(requestDto.originalUrl()))) {
+            throw new BlockDomainException(requestDto.originalUrl());
         }
 
         String randomKey = randomKeyGenerator.getRandomKey();
@@ -43,7 +54,14 @@ public class UrlShortenServiceImpl implements UrlShortenService {
             throw new CustomDuplicateKeyException(randomKey);
         }
 
-        urlShortenRepository.createShortenUrl(originUrl, randomKey);
+        ShortenUrlEntity entity = ShortenUrlEntity.createEntity(
+                randomKey,
+                requestDto.originalUrl()
+        );
+
+        entity.updateExpiredAt(requestDto.expirationMinutes());
+
+        urlShortenRepository.save(ShortenUrlRecord.fromEntity(entity));
         return randomKey;
     }
 }

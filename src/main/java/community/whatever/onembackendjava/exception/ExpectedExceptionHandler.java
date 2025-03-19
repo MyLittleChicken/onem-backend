@@ -21,6 +21,13 @@ public class ExpectedExceptionHandler {
         return e.getMessage();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(exception = ExpiredEntityException.class)
+    public String handleExpiredEntityException(final ExpiredEntityException e) {
+        loggingError(e);
+        return e.getMessage();
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(exception = CustomDuplicateKeyException.class)
     public String handleDuplicateKeyException(final CustomDuplicateKeyException e) {

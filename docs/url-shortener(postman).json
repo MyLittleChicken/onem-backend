@@ -80,7 +80,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "https://example.com/b62ebb92-c6d7-4d09-9cb4-0c82cff312b2",
+									"raw": "https://example.com/f7f61a64-9b00-4e0e-b9e4-5dee8d207ee9",
 									"options": {
 										"raw": {
 											"language": "text"
@@ -198,7 +198,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "https://example.com/80eb37fe-9699-41d4-a0ed-35ffdf54e369",
+									"raw": "https://example.com/{{$randomUUID}}",
 									"options": {
 										"raw": {
 											"language": "text"
@@ -402,10 +402,23 @@
 						}
 					]
 				}
-			]
+			],
+			"description": "deprecated apis"
 		},
 		{
 			"name": "단축 URL 조회",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -413,7 +426,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/shorten-url/:key",
+					"raw": "http://localhost:8080/api/v1/shorten-url/U34qP2K",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -423,14 +436,7 @@
 						"api",
 						"v1",
 						"shorten-url",
-						":key"
-					],
-					"variable": [
-						{
-							"key": "key",
-							"value": "1234",
-							"description": "단축 Url(key)"
-						}
+						"U34qP2K"
 					]
 				}
 			},
@@ -441,7 +447,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/shorten-url/:key",
+							"raw": "http://localhost:8080/api/v1/shorten-url/U34q9Os",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -451,13 +457,7 @@
 								"api",
 								"v1",
 								"shorten-url",
-								":key"
-							],
-							"variable": [
-								{
-									"key": "key",
-									"value": "5536"
-								}
+								"U34q9Os"
 							]
 						}
 					},
@@ -471,11 +471,11 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "72"
+							"value": "74"
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 07 Mar 2025 10:16:08 GMT"
+							"value": "Mon, 17 Mar 2025 10:01:40 GMT"
 						},
 						{
 							"key": "Keep-Alive",
@@ -487,15 +487,15 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"originUrl\": \"https://example.com/e8dab22c-14a8-4934-abf7-1ed110eda164\"\n}"
+					"body": "{\n    \"originalUrl\": \"https://example.com/a4dab52b-8ba3-4b1e-a49f-1c37c1e330df\"\n}"
 				},
 				{
-					"name": "500",
+					"name": "404 - no such",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/shorten-url/:key",
+							"raw": "http://localhost:8080/api/v1/shorten-url/U34q9Oa",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -505,39 +505,85 @@
 								"api",
 								"v1",
 								"shorten-url",
-								":key"
-							],
-							"variable": [
-								{
-									"key": "key",
-									"value": "9542"
-								}
+								"U34q9Oa"
 							]
 						}
 					},
-					"status": "Internal Server Error",
-					"code": 500,
-					"_postman_previewlanguage": "json",
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
 					"header": [
 						{
 							"key": "Content-Type",
-							"value": "application/json"
+							"value": "text/plain;charset=UTF-8"
 						},
 						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
+							"key": "Content-Length",
+							"value": "16"
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 07 Mar 2025 10:13:40 GMT"
+							"value": "Mon, 17 Mar 2025 10:01:53 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
 						},
 						{
 							"key": "Connection",
-							"value": "close"
+							"value": "keep-alive"
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"timestamp\": \"2025-03-07T10:13:40.295+00:00\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"path\": \"/api/v1/shorten-url/9542\"\n}"
+					"body": "No value present"
+				},
+				{
+					"name": "404 - expired",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/shorten-url/U34qP2K",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shorten-url",
+								"U34qP2K"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "31"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 17 Mar 2025 10:10:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "key: U34qP2K is already expired"
 				}
 			]
 		},
@@ -548,7 +594,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"originUrl\": \"https://example.com/{{$randomUUID}}\" // 단축하고자 하는 원본 url\n}",
+					"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10 // 만료 시간 (분)\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -577,7 +623,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"originUrl\": \"https://example.com/d094ef34-ef4c-4dfd-b344-9a03d4f6e40f\"\n}",
+							"raw": "{\n    \"originalUrl\": \"https://example.com/6197b1f4-8d60-4d1d-bfae-f952809c29a7\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -608,11 +654,11 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "20"
+							"value": "24"
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 07 Mar 2025 10:15:02 GMT"
+							"value": "Mon, 17 Mar 2025 10:00:55 GMT"
 						},
 						{
 							"key": "Keep-Alive",
@@ -624,7 +670,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"shotenUrl\": \"5536\"\n}"
+					"body": "{\n    \"shortenUrl\": \"U34q9Os\"\n}"
 				}
 			]
 		}
