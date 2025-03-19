@@ -2,10 +2,18 @@ package community.whatever.onembackendjava.entity;
 
 import community.whatever.onembackendjava.infrastructure.ShortenUrlRecord;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ShortenUrlEntity {
     private String shortenUrl;
     private String originUrl;
@@ -13,10 +21,8 @@ public class ShortenUrlEntity {
     private Instant createdAt;
     private Instant expiredAt; // if null, it means never expired
 
-    public ShortenUrlEntity() {}
-
     // constructor for creating new entity
-    public ShortenUrlEntity(
+    private ShortenUrlEntity(
             final String shortenUrl,
             final String originUrl
     ) {
@@ -25,41 +31,6 @@ public class ShortenUrlEntity {
         this.isDeleted = false;
         this.createdAt = Instant.now();
         this.expiredAt = null;
-    }
-
-    // constructor for creating entity from record
-    public ShortenUrlEntity(
-            final String shortenUrl,
-            final String originUrl,
-            final boolean isDeleted,
-            final Instant createdAt,
-            final Instant expiredAt
-    ) {
-        this.shortenUrl = shortenUrl;
-        this.originUrl = originUrl;
-        this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.expiredAt = expiredAt;
-    }
-
-    public String getShortenUrl() {
-        return this.shortenUrl;
-    }
-
-    public String getOriginUrl() {
-        return this.originUrl;
-    }
-
-    public boolean isDeleted() {
-        return this.isDeleted;
-    }
-
-    public Instant getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public Instant getExpiredAt() {
-        return this.expiredAt;
     }
 
     public void markAsDeleted() {
@@ -97,5 +68,4 @@ public class ShortenUrlEntity {
                 record.expiredAt()
         );
     }
-
 }
