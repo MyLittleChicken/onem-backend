@@ -1,15 +1,13 @@
 package community.whatever.onembackendjava.application;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RandomKeyGeneratorImpl implements RandomKeyGenerator {
 
     private final Base62Converter base62Converter;
-
-    public RandomKeyGeneratorImpl(Base62Converter base62Converter) {
-        this.base62Converter = base62Converter;
-    }
 
     @Override
     public String getRandomKey() {

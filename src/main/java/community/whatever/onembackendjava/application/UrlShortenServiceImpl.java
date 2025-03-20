@@ -7,26 +7,18 @@ import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.exception.ExpiredEntityException;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
 import community.whatever.onembackendjava.presentation.RequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
 
 @Service
+@RequiredArgsConstructor
 public class UrlShortenServiceImpl implements UrlShortenService {
 
     private final UrlShortenRepository urlShortenRepository;
     private final RandomKeyGenerator randomKeyGenerator;
     private final BlockDomainProvider blockDomainProvider;
-
-    public UrlShortenServiceImpl(
-            final UrlShortenRepository urlShortenRepository,
-            final RandomKeyGenerator randomKeyGenerator,
-            final BlockDomainProvider blockDomainProvider
-    ) {
-        this.urlShortenRepository = urlShortenRepository;
-        this.randomKeyGenerator = randomKeyGenerator;
-        this.blockDomainProvider = blockDomainProvider;
-    }
 
     @Override
     public String getOriginalUrl(final String shortUrl) throws IllegalArgumentException {
