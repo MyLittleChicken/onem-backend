@@ -5,41 +5,30 @@ import community.whatever.onembackendjava.exception.BlockDomainException;
 import community.whatever.onembackendjava.BlockDomainProvider;
 import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.exception.ExpiredEntityException;
-import community.whatever.onembackendjava.infrastructure.ShortenUrlRecord;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
 import community.whatever.onembackendjava.presentation.RequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
 
 @Service
+@RequiredArgsConstructor
 public class UrlShortenServiceImpl implements UrlShortenService {
 
     private final UrlShortenRepository urlShortenRepository;
     private final RandomKeyGenerator randomKeyGenerator;
     private final BlockDomainProvider blockDomainProvider;
 
-    public UrlShortenServiceImpl(
-            final UrlShortenRepository urlShortenRepository,
-            final RandomKeyGenerator randomKeyGenerator,
-            final BlockDomainProvider blockDomainProvider
-    ) {
-        this.urlShortenRepository = urlShortenRepository;
-        this.randomKeyGenerator = randomKeyGenerator;
-        this.blockDomainProvider = blockDomainProvider;
-    }
-
     @Override
     public String getOriginalUrl(final String shortUrl) throws IllegalArgumentException {
-        ShortenUrlEntity entity = ShortenUrlEntity.fromRecord(
-                urlShortenRepository.findShortenUrlByKey(shortUrl).orElseThrow()
-        );
+        ShortenUrlEntity entity = urlShortenRepository.findShortenUrlByKey(shortUrl).orElseThrow();
 
         if (entity.isExpired()) {
             throw new ExpiredEntityException(shortUrl);
         }
 
-        return entity.getOriginUrl();
+        return entity.originUrl();
     }
 
     @Override
@@ -59,9 +48,7 @@ public class UrlShortenServiceImpl implements UrlShortenService {
                 requestDto.originalUrl()
         );
 
-        entity.updateExpiredAt(requestDto.expirationMinutes());
-
-        urlShortenRepository.save(ShortenUrlRecord.fromEntity(entity));
+        urlShortenRepository.save(entity);
         return randomKey;
     }
 }
