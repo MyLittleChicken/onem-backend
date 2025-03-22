@@ -2,6 +2,7 @@ package community.whatever.onembackendjava;
 
 import community.whatever.onembackendjava.infrastructure.BlockDomainLoader;
 import io.micrometer.common.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -9,12 +10,9 @@ import java.net.URL;
 import java.util.Set;
 
 @Component
+@RequiredArgsConstructor
 public class BlockDomainProvider {
     private final Set<String> domains;
-
-    public BlockDomainProvider(final BlockDomainLoader blockDomainLoader) {
-        this.domains = blockDomainLoader.load();
-    }
 
     public boolean isBlocked(final String authority) {
         return StringUtils.isBlank(authority)
