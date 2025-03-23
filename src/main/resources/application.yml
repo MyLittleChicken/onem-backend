@@ -8,3 +8,29 @@ block-domain:
       name: hosts.txt
     source:
       url: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+  endpoint:
+    health:
+      show-details: always
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active}
+    enable:
+      jvm: true
+      process: true
+      http: true
+      system: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true  # 히스토그램 활성화
+
+loki:
+  endpoint: ${LOKI_ENDPOINT:http://localhost:3100/loki/api/v1/push}
