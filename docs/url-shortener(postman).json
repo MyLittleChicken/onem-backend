@@ -406,140 +406,867 @@
 			"description": "deprecated apis"
 		},
 		{
-			"name": "단축 URL 조회",
-			"event": [
+			"name": "dev",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/v1/shorten-url/U34qP2K",
-					"protocol": "http",
-					"host": [
-						"localhost"
+					"name": "단축 URL 조회",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
 					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"shorten-url",
-						"U34qP2K"
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dev.undertopia.com/api/v1/shorten-url/UOWvGrR",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"undertopia",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shorten-url",
+								"UOWvGrR"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://dev.undertopia.com/api/v1/shorten-url/U34q9Os",
+									"protocol": "https",
+									"host": [
+										"dev",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Os"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"originalUrl\": \"https://example.com/a4dab52b-8ba3-4b1e-a49f-1c37c1e330df\"\n}"
+						},
+						{
+							"name": "404 - no such",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://dev.undertopia.com/api/v1/shorten-url/U34q9Oa",
+									"protocol": "https",
+									"host": [
+										"dev",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Oa"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "No value present"
+						},
+						{
+							"name": "404 - expired",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://dev.undertopia.com:8080/api/v1/shorten-url/U34qP2K",
+									"protocol": "https",
+									"host": [
+										"dev",
+										"undertopia",
+										"com"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34qP2K"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:10:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "key: U34qP2K is already expired"
+						}
+					]
+				},
+				{
+					"name": "단축 URL 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10 // 만료 시간 (분)\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev.undertopia.com/api/v1/shorten-url",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"undertopia",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shorten-url"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"originalUrl\": \"https://example.com/9211ab0b-44b5-4726-865b-cdbac0d0f3b0\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://dev.undertopia.com/api/v1/shorten-url",
+									"protocol": "https",
+									"host": [
+										"dev",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:00:55 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"shortenUrl\": \"U34q9Os\"\n}"
+						}
 					]
 				}
-			},
-			"response": [
+			]
+		},
+		{
+			"name": "stg",
+			"item": [
 				{
-					"name": "200",
-					"originalRequest": {
+					"name": "단축 URL 조회",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/shorten-url/U34q9Os",
-							"protocol": "http",
+							"raw": "https://stg.undertopia.com/api/v1/shorten-url/UOWvr1S",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"stg",
+								"undertopia",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
 								"shorten-url",
-								"U34q9Os"
+								"UOWvr1S"
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Type",
-							"value": "application/json"
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://stg.undertopia.com/api/v1/shorten-url/U34q9Os",
+									"protocol": "https",
+									"host": [
+										"stg",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Os"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"originalUrl\": \"https://example.com/a4dab52b-8ba3-4b1e-a49f-1c37c1e330df\"\n}"
 						},
 						{
-							"key": "Content-Length",
-							"value": "74"
+							"name": "404 - no such",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://stg.undertopia.com/api/v1/shorten-url/U34q9Oa",
+									"protocol": "https",
+									"host": [
+										"stg",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Oa"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "No value present"
 						},
 						{
-							"key": "Date",
-							"value": "Mon, 17 Mar 2025 10:01:40 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"name": "404 - expired",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://stg.undertopia.com/api/v1/shorten-url/U34qP2K",
+									"protocol": "https",
+									"host": [
+										"stg",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34qP2K"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:10:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "key: U34qP2K is already expired"
 						}
-					],
-					"cookie": [],
-					"body": "{\n    \"originalUrl\": \"https://example.com/a4dab52b-8ba3-4b1e-a49f-1c37c1e330df\"\n}"
+					]
 				},
 				{
-					"name": "404 - no such",
-					"originalRequest": {
+					"name": "단축 URL 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10 // 만료 시간 (분)\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://stg.undertopia.com/api/v1/shorten-url",
+							"protocol": "https",
+							"host": [
+								"stg",
+								"undertopia",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shorten-url"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"originalUrl\": \"https://example.com/2644382d-8658-436a-b439-2d1ae1dd7e5f\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://stg.undertopia.com/api/v1/shorten-url",
+									"protocol": "https",
+									"host": [
+										"stg",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:00:55 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"shortenUrl\": \"U34q9Os\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "prd",
+			"item": [
+				{
+					"name": "단축 URL 조회",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/shorten-url/U34q9Oa",
-							"protocol": "http",
+							"raw": "https://stg.undertopia.com/api/v1/shorten-url/UOWa1gI",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"stg",
+								"undertopia",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
 								"shorten-url",
-								"U34q9Oa"
+								"UOWa1gI"
 							]
 						}
 					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "plain",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Type",
-							"value": "text/plain;charset=UTF-8"
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://prd.undertopia.com/api/v1/shorten-url/U34q9Os",
+									"protocol": "https",
+									"host": [
+										"prd",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Os"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"originalUrl\": \"https://example.com/a4dab52b-8ba3-4b1e-a49f-1c37c1e330df\"\n}"
 						},
 						{
-							"key": "Content-Length",
-							"value": "16"
+							"name": "404 - no such",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://prd.undertopia.com/api/v1/shorten-url/U34q9Oa",
+									"protocol": "https",
+									"host": [
+										"prd",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Oa"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "No value present"
 						},
 						{
-							"key": "Date",
-							"value": "Mon, 17 Mar 2025 10:01:53 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"name": "404 - expired",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://prd.undertopia.com/api/v1/shorten-url/U34qP2K",
+									"protocol": "https",
+									"host": [
+										"prd",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34qP2K"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:10:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "key: U34qP2K is already expired"
 						}
-					],
-					"cookie": [],
-					"body": "No value present"
+					]
 				},
 				{
-					"name": "404 - expired",
-					"originalRequest": {
+					"name": "단축 URL 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10 // 만료 시간 (분)\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://stg.undertopia.com/api/v1/shorten-url",
+							"protocol": "https",
+							"host": [
+								"stg",
+								"undertopia",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shorten-url"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://prd.undertopia.com/api/v1/shorten-url",
+									"protocol": "https",
+									"host": [
+										"prd",
+										"undertopia",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"shorten-url"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:00:55 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"shortenUrl\": \"U34q9Os\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "단축 URL 조회",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -557,73 +1284,161 @@
 							]
 						}
 					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "plain",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Type",
-							"value": "text/plain;charset=UTF-8"
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/shorten-url/U34q9Os",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Os"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"originalUrl\": \"https://example.com/a4dab52b-8ba3-4b1e-a49f-1c37c1e330df\"\n}"
 						},
 						{
-							"key": "Content-Length",
-							"value": "31"
+							"name": "404 - no such",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/shorten-url/U34q9Oa",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34q9Oa"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:01:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "No value present"
 						},
 						{
-							"key": "Date",
-							"value": "Mon, 17 Mar 2025 10:10:07 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"name": "404 - expired",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/shorten-url/U34qP2K",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"shorten-url",
+										"U34qP2K"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:10:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "key: U34qP2K is already expired"
 						}
-					],
-					"cookie": [],
-					"body": "key: U34qP2K is already expired"
-				}
-			]
-		},
-		{
-			"name": "단축 URL 생성",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10 // 만료 시간 (분)\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/v1/shorten-url",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"shorten-url"
 					]
-				}
-			},
-			"response": [
+				},
 				{
-					"name": "200",
-					"originalRequest": {
+					"name": "단축 URL 생성",
+					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"originalUrl\": \"https://example.com/6197b1f4-8d60-4d1d-bfae-f952809c29a7\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10\n}",
+							"raw": "{\n    \"originalUrl\": \"https://example.com/{{$randomUUID}}\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10 // 만료 시간 (분)\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -644,33 +1459,64 @@
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
+					"response": [
 						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Content-Length",
-							"value": "24"
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 17 Mar 2025 10:00:55 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"originalUrl\": \"https://example.com/6197b1f4-8d60-4d1d-bfae-f952809c29a7\", // 단축하고자 하는 원본 url\n    \"expirationMinutes\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/shorten-url",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"shorten-url"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 10:00:55 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"shortenUrl\": \"U34q9Os\"\n}"
 						}
-					],
-					"cookie": [],
-					"body": "{\n    \"shortenUrl\": \"U34q9Os\"\n}"
+					]
 				}
 			]
 		}
