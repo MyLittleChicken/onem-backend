@@ -49,9 +49,10 @@ internal-core 팀은 전사 공통 util 서비스를 제공하고 있으며, 당
 
 2. application run  
    - **you need `jdk 17` or `higher`**
+   - **you need `mysql` port `3306`**
 
     ```shell
-    java -jar build/libs/onem-backend-0.0.1-SNAPSHOT.jar
+    java -jar -Dspring.datasource.username="user" -Dspring.datasource.password="password" -Dspring.profiles.active="local" build/libs/onem-backend-0.0.1-SNAPSHOT.jar
     ````
 
 ***
