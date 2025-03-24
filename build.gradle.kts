@@ -26,6 +26,10 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
+
+    // jdbc, mysql
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("com.mysql:mysql-connector-j:9.2.0")
     
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
