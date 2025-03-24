@@ -9,10 +9,12 @@ import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
 import community.whatever.onembackendjava.presentation.RequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UrlShortenServiceImpl implements UrlShortenService {
 
@@ -31,6 +33,7 @@ public class UrlShortenServiceImpl implements UrlShortenService {
         return entity.originUrl();
     }
 
+    @Transactional
     @Override
     public String createShortUrl(final RequestDto.CreateShortenUrl requestDto) throws CustomDuplicateKeyException {
         if (blockDomainProvider.isBlocked(URI.create(requestDto.originalUrl()))) {
