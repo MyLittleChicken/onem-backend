@@ -47,14 +47,10 @@ public class LoggingFilter extends OncePerRequestFilter {
             responseWrapper.copyBodyToResponse();
         }
 
-        if (responseWrapper.getStatus() == HttpServletResponse.SC_OK) {
-            return;
-        }
-
         StringBuffer stringBuffer = new StringBuffer();
         appendRequestLog(requestWrapper, stringBuffer);
         appendResponseLog(responseWrapper, stringBuffer);
-        logger.error(stringBuffer.toString());
+        logger.info(stringBuffer.toString());
     }
 
     private void appendRequestLog(

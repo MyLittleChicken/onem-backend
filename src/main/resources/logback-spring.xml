@@ -1,14 +1,18 @@
 <configuration>
     <property name="LOG_PATH" value="./logs" />
 
-    <!-- 콘솔 로그 (local, dev, prod) -->
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="springProfile" source="spring.profiles.active" />
+    <springProperty scope="context" name="lokiEndpoint" source="loki.endpoint"/>
+
+    <!-- 콘솔 로그 (local, dev, stg, prd) -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- 파일 로그 (dev, prod) -->
+    <!-- 파일 로그 (dev, stg, prd) -->
 
         <appender name="FileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/app.log</file>
@@ -23,12 +27,24 @@
         </encoder>
     </appender>
 
-    <!-- 로깅 레벨 환경별 설정 -->
+    <appender name="Loki" class="com.github.loki4j.logback.Loki4jAppender">
+        <!-- Loki 서버 주소 -->
+        <http>
+            <url>${lokiEndpoint}</url>
+        </http>
+        <format>
+            <label>
+                <pattern>app=${springAppName},env=${springProfile},host=${HOSTNAME},level=%level</pattern>
+            </label>
+            <message>
+                <pattern>{"time":"%d{ISO8601}","thread":"%thread","logger":"%logger{36}","level":"%level","message":"%message","exception":"%exception"}%n</pattern>
+            </message>
+        </format>
+        <batchSize>100</batchSize>
+        <batchTimeoutMs>1000</batchTimeoutMs>
+    </appender>
 
-    <!--  local profile  -->
-    <root level="DEBUG">
-        <appender-ref ref="Console"/>
-    </root>
+    <!-- 로깅 레벨 환경별 설정 -->
 
     <!-- local profile override -->
     <springProfile name="local">
@@ -39,17 +55,28 @@
 
     <!-- dev profile override -->
     <springProfile name="dev">
-        <root level="WARN">
+        <root level="INFO">
             <appender-ref ref="Console"/>
             <appender-ref ref="FileAppender"/>
+            <appender-ref ref="Loki"/>
         </root>
     </springProfile>
 
-    <!-- prod profile override -->
-    <springProfile name="prod">
-        <root level="ERROR">
+    <!-- stg profile override -->
+    <springProfile name="stg">
+        <root level="INFO">
             <appender-ref ref="Console"/>
             <appender-ref ref="FileAppender"/>
+            <appender-ref ref="Loki"/>
+        </root>
+    </springProfile>
+
+    <!-- prd profile override -->
+    <springProfile name="prd">
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="FileAppender"/>
+            <appender-ref ref="Loki"/>
         </root>
     </springProfile>
 </configuration>
