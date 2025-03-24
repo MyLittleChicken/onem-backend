@@ -30,6 +30,13 @@ dependencies {
     // jdbc, mysql
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("com.mysql:mysql-connector-j:9.2.0")
+
+    // Actuator + Micrometer (for collecting metrics with prometheus)
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
+    // Loki4j (for logging with Loki)
+    implementation("com.github.loki4j:loki-logback-appender:1.4.0")
     
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
