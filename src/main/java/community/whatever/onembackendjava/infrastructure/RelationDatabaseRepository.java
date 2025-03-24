@@ -12,12 +12,11 @@ import java.util.Optional;
 public class RelationDatabaseRepository implements UrlShortenRepository{
 
     private final JdbcClient jdbcClient;
-    private final SqlProvider sqlProvider;
     private final UrlShortenRowMapper urlShortenRowMapper;
 
     @Override
     public Optional<String> findOriginalUrlByKey(String shortenUrl) {
-        return jdbcClient.sql(sqlProvider.getFindOriginalUrlByKeySql())
+        return jdbcClient.sql(MysqlQueries.FIND_ORIGINAL_URL_BY_KEY.getQuery())
                 .param(shortenUrl)
                 .query(String.class)
                 .optional();
@@ -25,7 +24,7 @@ public class RelationDatabaseRepository implements UrlShortenRepository{
 
     @Override
     public Optional<ShortenUrlEntity> findShortenUrlByKey(String shortenUrl) {
-        return jdbcClient.sql(sqlProvider.getFindShortenUrlByKeySql())
+        return jdbcClient.sql(MysqlQueries.FIND_SHORTEN_URL_BY_KEY.getQuery())
                 .param(shortenUrl)
                 .query(urlShortenRowMapper)
                 .optional();
@@ -33,7 +32,7 @@ public class RelationDatabaseRepository implements UrlShortenRepository{
 
     @Override
     public boolean existsByKey(String key) {
-        return jdbcClient.sql(sqlProvider.getExistsByKeySql())
+        return jdbcClient.sql(MysqlQueries.EXISTS_BY_KEY.getQuery())
                 .param(key)
                 .query(Boolean.class)
                 .single();
@@ -41,7 +40,7 @@ public class RelationDatabaseRepository implements UrlShortenRepository{
 
     @Override
     public void save(ShortenUrlEntity entity) {
-        jdbcClient.sql(sqlProvider.getSaveSql())
+        jdbcClient.sql(MysqlQueries.SAVE.getQuery())
                 .params(entity.shortenUrl(), entity.originUrl(), entity.isDeleted(), entity.createdAt(), entity.expiredAt())
                 .update();
     }
