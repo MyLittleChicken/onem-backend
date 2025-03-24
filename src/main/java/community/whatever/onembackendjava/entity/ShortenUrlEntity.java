@@ -1,18 +1,18 @@
 package community.whatever.onembackendjava.entity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record ShortenUrlEntity(
         String shortenUrl,
         String originUrl,
         boolean isDeleted,
-        LocalDateTime createdAt,
-        LocalDateTime expiredAt
+        Instant createdAt,
+        Instant expiredAt
 ) {
 
     public boolean isExpired() {
         return this.expiredAt != null
-        && LocalDateTime.now().isAfter(this.expiredAt);
+        && Instant.now().isAfter(this.expiredAt);
     }
 
     public static ShortenUrlEntity createEntity(
@@ -23,7 +23,7 @@ public record ShortenUrlEntity(
                 shortenUrl,
                 originUrl,
                 false,
-                LocalDateTime.now(),
+                Instant.now(),
                 null
         );
     }

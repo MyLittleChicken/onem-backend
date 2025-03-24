@@ -1,8 +1,8 @@
 package community.whatever.onembackendjava.infrastructure;
 
 public interface SqlProvider {
-    String findOriginalUrlByKey();
-    String findShortenUrlByKey();
-    String existsByKey();
-    String save();
+    String getFindOriginalUrlByKeySql();
+    String getFindShortenUrlByKeySql();
+    String getExistsByKeySql();
+    String getSaveSql();
 }
