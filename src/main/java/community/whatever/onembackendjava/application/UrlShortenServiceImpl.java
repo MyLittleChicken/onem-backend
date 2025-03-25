@@ -2,7 +2,7 @@ package community.whatever.onembackendjava.application;
 
 import community.whatever.onembackendjava.entity.ShortenUrlEntity;
 import community.whatever.onembackendjava.exception.BlockDomainException;
-import community.whatever.onembackendjava.BlockDomainProvider;
+import community.whatever.onembackendjava.utils.BlockDomainProvider;
 import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.exception.ExpiredEntityException;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;

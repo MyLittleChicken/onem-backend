@@ -13,13 +13,13 @@ public class EnhancedUrlValidator {
     private final RegexValidator regexValidator = new RegexValidator(DISALLOW_REGEX);
     private final UrlValidator urlValidator = new UrlValidator(ALLOW_SCHEMES);
 
-    public boolean isValid(final String authority) {
-        return regexValidator.isValid(authority)
-        && urlValidator.isValid(authority);
+    public boolean isValid(final String url) {
+        return regexValidator.isValid(url)
+        && urlValidator.isValid(url);
     }
 
-    public boolean isNotValid(final String authority) {
-        return !isValid(authority);
+    public boolean isNotValid(final String url) {
+        return !isValid(url);
     }
 
 }

@@ -8,6 +8,7 @@ import community.whatever.onembackendjava.exception.BlockDomainException;
 import community.whatever.onembackendjava.exception.CustomDuplicateKeyException;
 import community.whatever.onembackendjava.infrastructure.UrlShortenRepository;
 import community.whatever.onembackendjava.presentation.RequestDto;
+import community.whatever.onembackendjava.utils.BlockDomainProvider;
 import io.micrometer.common.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

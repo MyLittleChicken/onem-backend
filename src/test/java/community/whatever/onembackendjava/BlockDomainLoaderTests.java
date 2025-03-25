@@ -1,6 +1,8 @@
 package community.whatever.onembackendjava;
 
 import community.whatever.onembackendjava.infrastructure.BlockDomainLoader;
+import community.whatever.onembackendjava.utils.BlockDomainProvider;
+import community.whatever.onembackendjava.utils.EnhancedUrlValidator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +22,8 @@ class BlockDomainLoaderTests {
     private BlockDomainLoader blockDomainLoader;
     @Autowired
     private BlockDomainProvider blockDomainProvider;
+    @Autowired
+    private EnhancedUrlValidator enhancedUrlValidator;
 
     @Test
     void testBlockDomainLoader() {
@@ -38,6 +42,24 @@ class BlockDomainLoaderTests {
         assertTrue(blockDomainProvider.isBlocked(url.getAuthority()));
         assertTrue(blockDomainProvider.isBlocked(uri.getAuthority()));
         assertTrue(blockDomainProvider.isBlocked(uri.getRawAuthority()));
+    }
+
+    @Test
+    void testUrlValidator() throws MalformedURLException, URISyntaxException {
+        String localhost = "http://localhost";
+        String fragment = "http://localhost#";
+        String userinfo = "http://google.com@domain.com";
+        String spoofing = "https://naver.com                                                                              @phishing.xyz";
+
+        assertFalse(enhancedUrlValidator.isValid(localhost));
+        assertFalse(enhancedUrlValidator.isValid(fragment));
+        assertFalse(enhancedUrlValidator.isValid(userinfo));
+        assertFalse(enhancedUrlValidator.isValid(spoofing));
+
+        assertTrue(enhancedUrlValidator.isNotValid(localhost));
+        assertTrue(enhancedUrlValidator.isNotValid(fragment));
+        assertTrue(enhancedUrlValidator.isNotValid(userinfo));
+        assertTrue(enhancedUrlValidator.isNotValid(spoofing));
     }
 
 }
