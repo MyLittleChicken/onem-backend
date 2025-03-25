@@ -27,6 +27,10 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 
+    // jdbc, mysql
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("com.mysql:mysql-connector-j:9.2.0")
+
     // Actuator + Micrometer (for collecting metrics with prometheus)
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")

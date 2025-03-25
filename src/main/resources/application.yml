@@ -1,6 +1,17 @@
 spring:
   application:
     name: onem-backend
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/url_shortener?useSSL=false&serverTimezone=UTC&allowMultiQueries=true
+    username: {DB_USERNAME}
+    password: {DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000  # 5분
+      max-lifetime: 1200000  # 20분
+      connection-timeout: 20000  # 20초
 
 block-domain:
   loader:
@@ -8,7 +19,7 @@ block-domain:
       name: hosts.txt
     source:
       url: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
-
+      
 management:
   endpoints:
     web:
@@ -34,3 +45,30 @@ management:
 
 loki:
   endpoint: ${LOKI_ENDPOINT:http://localhost:3100/loki/api/v1/push}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: {DB_ENDPOINT}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: stg
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: {DB_ENDPOINT}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prd
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: {DB_ENDPOINT}
