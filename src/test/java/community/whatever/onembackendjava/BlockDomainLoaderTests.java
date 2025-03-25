@@ -39,9 +39,9 @@ class BlockDomainLoaderTests {
 
         assertTrue(blockDomainProvider.isBlocked(url));
         assertTrue(blockDomainProvider.isBlocked(uri));
-        assertTrue(blockDomainProvider.isBlocked(url.getAuthority()));
-        assertTrue(blockDomainProvider.isBlocked(uri.getAuthority()));
-        assertTrue(blockDomainProvider.isBlocked(uri.getRawAuthority()));
+        assertTrue(blockDomainProvider.isBlocked(url));
+        assertTrue(blockDomainProvider.isBlocked(uri));
+        assertTrue(blockDomainProvider.isBlocked(uri));
     }
 
     @Test
