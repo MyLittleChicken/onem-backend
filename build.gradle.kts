@@ -37,6 +37,9 @@ dependencies {
 
     // Loki4j (for logging with Loki)
     implementation("com.github.loki4j:loki-logback-appender:1.4.0")
+
+    // apache commons validator
+    implementation("commons-validator:commons-validator:1.9.0")
     
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
